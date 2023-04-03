@@ -100,3 +100,14 @@ create table `post` (
   key `idx_author_id` (`author_id`),
   key `idx_community_id` (`community_id`)
 ) engine = InnoDB default charset = utf8mb4 collate = utf8mb4_general_ci;
+
+
+create table `list` (
+  `id` int(11) not null auto_increment,
+  `list_id` bigint(20) unsigned not null,
+  `content` TEXT collate utf8mb4_general_ci not null  ,
+  `create_time` timestamp not null default current_timestamp,
+  `update_time` timestamp not null default current_timestamp on update current_timestamp,
+  primary key (`id`),
+  unique key `idx_list_id` (`list_id`)
+) engine = InnoDB default charset = utf8mb4 collate = utf8mb4_general_ci;

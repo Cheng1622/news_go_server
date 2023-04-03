@@ -1,7 +1,6 @@
 package spider
 
 import (
-	"fmt"
 	"go_server/dao/mysql"
 	"go_server/dao/redis"
 	"go_server/models"
@@ -12,7 +11,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"sync"
 
 	"github.com/PuerkitoBio/goquery"
 	"go.uber.org/zap"
@@ -63,7 +61,7 @@ var (
 		`zhuliangbi`:           257, //猪粮比
 		`siliaogongxu`:         256, //饲料供需
 		`siliaofenxi`:          267, //饲料分析
-		`shengzhu`:             63,  // 生猪价格
+		`shengzhu`:             63,  //生猪价格
 		`zizhu`:                64,  //仔猪价格
 		`zhurou`:               65,  //猪肉价格
 		`shengshi`:             115, //各省市猪价
@@ -112,6 +110,9 @@ func get(k string, v int, page int) {
 				k = pattern[1] + pattern[2] + pattern[3]
 			}
 		}
+		if NewsUrl == "https:" {
+			return
+		}
 		Id, _ := strconv.ParseInt(k, 10, 64)
 		post := &models.Post{
 			CommunityId: CommunityId,
@@ -141,7 +142,7 @@ func getDeal(s *models.Post) {
 		return
 	}
 	s1 := dom.Find("div.zxxwleft>div.zxxw").Text()
-	pattern := regexp.MustCompile(`来源：(.+)\s*(.+)\|`).FindStringSubmatch(s1)
+	pattern := regexp.MustCompile(`来源：(.+) (\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2})`).FindStringSubmatch(s1)
 	if len(pattern) == 3 {
 		s.NewsSource = pattern[1]
 		s.NewsTime = pattern[2]
@@ -195,21 +196,6 @@ func getDeal(s *models.Post) {
 	if err != nil {
 		return
 	}
-	// fmt.Println(s)
-}
-
-func SpiderNews() {
-	wg := &sync.WaitGroup{}
-	for k, v := range tabArr {
-		wg.Add(1)
-		go func(k string, v int) {
-			defer wg.Done()
-			get(k, v, 1)
-		}(k, v)
-	}
-
-	wg.Wait()
-	fmt.Println("spider is ok")
 }
 
 func downLoad(url string, s int64) (string, error) {
@@ -219,7 +205,12 @@ func downLoad(url string, s int64) (string, error) {
 	}
 	defer b.Body.Close()
 	k := strconv.FormatInt(s, 10) + ".mp4"
-	out, err := os.Create("./video/" + k)
+	path := "./video/"
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		// mkdir 创建目录，mkdirAll 可创建多层级目录
+		os.MkdirAll(path, os.ModePerm)
+	}
+	out, err := os.Create(path + k)
 	if err != nil {
 		return "", err
 	}
