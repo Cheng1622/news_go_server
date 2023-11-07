@@ -18,7 +18,6 @@ const (
 	Unauthorized
 	WithoutLogin
 	DisableAuth
-	ServerBusy
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -37,13 +36,12 @@ var codeMsgMap = map[ResCode]string{
 	Unauthorized:  "JWT认证失败",
 	WithoutLogin:  "用户未登录",
 	DisableAuth:   "当前用户已被禁用",
-	ServerBusy:    "服务器繁忙",
 }
 
 func (c ResCode) Msg() string {
 	msg, ok := codeMsgMap[c]
 	if !ok {
-		msg = codeMsgMap[ServerBusy]
+		msg = codeMsgMap[ERROR]
 	}
 	return msg
 }

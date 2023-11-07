@@ -32,6 +32,7 @@ type SystemConfig struct {
 	RSAPrivateKey   string `mapstructure:"rsa-private-key" json:"rsaPrivateKey"`
 	RSAPublicBytes  []byte `mapstructure:"-" json:"-"`
 	RSAPrivateBytes []byte `mapstructure:"-" json:"-"`
+	I18nLanguage    string `mapstructure:"i18n-language" json:"i18nLanguage"`
 }
 
 type LogsConfig struct {
@@ -92,7 +93,7 @@ func InitConfig() {
 	}
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(workDir + "/")
+	viper.AddConfigPath(workDir + "/config/")
 	// 读取配置信息
 	err = viper.ReadInConfig()
 

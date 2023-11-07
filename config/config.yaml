@@ -8,6 +8,8 @@ system:
   rsa-public-key: ./config/private_key.pem
   # rsa私钥文件路径
   rsa-private-key: ./config/private_key.pem
+  # I18国际化指定语言，默认支持en和zh
+  i18n-language: zh
 
 logs:
   # 日志等级(-1:Debug，0:Info，1:Warn，2:Error，3:DPanic，4:Panic，5:Fatal，-1<=level<=5，参照zap.level源码)
