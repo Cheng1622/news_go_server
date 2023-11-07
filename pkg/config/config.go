@@ -25,7 +25,6 @@ type config struct {
 
 type SystemConfig struct {
 	Mode            string `mapstructure:"mode" json:"mode"`
-	UrlPathPrefix   string `mapstructure:"url-path-prefix" json:"urlPathPrefix"`
 	Host            string `mapstructure:"host" json:"host"`
 	Port            int    `mapstructure:"port" json:"port"`
 	RSAPublicKey    string `mapstructure:"rsa-public-key" json:"rsaPublicKey"`
@@ -126,20 +125,14 @@ func InitConfig() {
 }
 
 // 从文件中读取RSA key
-func RSAReadKeyFromFile(filename string) []byte {
-	fmt.Println(filename)
+func RSAReadKeyFromFile(filename string) (b []byte) {
 	f, err := os.Open(filename)
-	var b []byte
-
 	if err != nil {
-		return b
+		return
 	}
 	defer f.Close()
 	fileInfo, _ := f.Stat()
 	b = make([]byte, fileInfo.Size())
-	_, err = f.Read(b)
-	if err != nil {
-		return b
-	}
+	f.Read(b)
 	return b
 }

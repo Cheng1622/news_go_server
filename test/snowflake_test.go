@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/Cheng1622/news_go_server/pkg/clog"
@@ -18,5 +17,5 @@ func TestSnowFlake(t *testing.T) {
 		clog.Log.Panicln("snowflake:", err)
 		return
 	}
-	fmt.Println(a)
+	t.Fatal(a)
 }

@@ -22,7 +22,6 @@ func RSAEncrypt(data, publicBytes []byte) []byte {
 	}
 
 	// 使用X509将解码之后的数据 解析出来
-	// x509.MarshalPKCS1PublicKey(block):解析之后无法用，所以采用以下方法：ParsePKIXPublicKey
 	keyInit, err := x509.ParsePKIXPublicKey(block.Bytes)
 	if err != nil {
 		clog.Log.DPanicln("无法加密, 公钥可能不正确:", err)
@@ -51,9 +50,14 @@ func RSADecrypt(base64Data, privateBytes []byte) []byte {
 		return res
 	}
 	// 还原数据
-	privateKey, err := x509.ParsePKCS1PrivateKey(block.Bytes)
+	parsedKey, err := x509.ParsePKCS8PrivateKey(block.Bytes)
 	if err != nil {
 		clog.Log.DPanicln("无法解密, 私钥可能不正确,解析PKCS失败:", err)
+		return res
+	}
+	privateKey, ok := parsedKey.(*rsa.PrivateKey)
+	if !ok {
+		clog.Log.DPanicln("无法解密, 得到意外的密钥类型")
 		return res
 	}
 	res, err = rsa.DecryptPKCS1v15(rand.Reader, privateKey, data)
