@@ -55,6 +55,7 @@ func RSADecrypt(base64Data, privateBytes []byte) []byte {
 		clog.Log.DPanicln("无法解密, 私钥可能不正确,解析PKCS失败:", err)
 		return res
 	}
+	// 类型断言
 	privateKey, ok := parsedKey.(*rsa.PrivateKey)
 	if !ok {
 		clog.Log.DPanicln("无法解密, 得到意外的密钥类型")
