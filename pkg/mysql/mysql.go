@@ -13,7 +13,7 @@ import (
 
 var DB *gorm.DB // DB 全局mysql数据库变量
 
-func InitSqlite() {
+func InitMysql() {
 	var err error
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&collation=%s&%s",
 		config.Conf.Mysql.Username,

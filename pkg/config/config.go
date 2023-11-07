@@ -127,6 +127,7 @@ func InitConfig() {
 
 // 从文件中读取RSA key
 func RSAReadKeyFromFile(filename string) []byte {
+	fmt.Println(filename)
 	f, err := os.Open(filename)
 	var b []byte
 

@@ -5,7 +5,7 @@ system:
   # 程序监听端口
   port: 8888
   # rsa公钥文件路径
-  rsa-public-key: ./config/private_key.pem
+  rsa-public-key: ./config/public_key.pem
   # rsa私钥文件路径
   rsa-private-key: ./config/private_key.pem
   # I18国际化指定语言，默认支持en和zh

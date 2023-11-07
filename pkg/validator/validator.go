@@ -1,7 +1,6 @@
 package validator
 
 import (
-	"log/slog"
 	"net/http"
 	"os"
 	"reflect"
@@ -25,7 +24,6 @@ var Trans ut.Translator
 
 // InitValidate validator信息翻译
 func InitValidate() {
-	var Trans ut.Translator
 	//修改gin框架中的validator引擎属性, 实现定制
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		//注册一个获取jsonTag的自定义方法
@@ -42,7 +40,7 @@ func InitValidate() {
 		uni := ut.New(enT, zhT, enT)
 		Trans, ok = uni.GetTranslator(config.Conf.System.I18nLanguage)
 		if !ok {
-			slog.Error("初始化validator.v10数据校验器失败")
+			clog.Log.Error("初始化validator.v10数据校验器失败")
 			os.Exit(1)
 		}
 		switch config.Conf.System.I18nLanguage {
@@ -63,7 +61,7 @@ func HandleValidatorError(c *gin.Context, err error) {
 	//如何返回错误信息
 	errs, ok := err.(validator.ValidationErrors)
 	if !ok {
-		response.Error(c, http.StatusBadRequest, code.ValidateError, nil)
+		response.Error(c, http.StatusBadRequest, code.ValidateError, err.Error())
 		return
 	}
 	response.Error(c, http.StatusBadRequest, code.ValidateError, removeTopStruct(errs.Translate(Trans)))
