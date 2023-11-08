@@ -23,8 +23,8 @@ func Success(c *gin.Context, code code.ResCode, data interface{}) {
 }
 
 // Error 返回失败
-func Error(c *gin.Context, httpCode int, code code.ResCode, data interface{}) {
-	c.JSON(httpCode, &Response{
+func Error(c *gin.Context, code code.ResCode, data interface{}) {
+	c.JSON(http.StatusOK, &Response{
 		Code: code,       // 自定义code
 		Msg:  code.Msg(), // message
 		Data: data,       // 数据

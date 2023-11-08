@@ -2,7 +2,6 @@ package redis
 
 import (
 	"context"
-	"os"
 
 	"github.com/Cheng1622/news_go_server/pkg/clog"
 	"github.com/Cheng1622/news_go_server/pkg/config"
@@ -20,9 +19,8 @@ func InitRedis() {
 	})
 
 	if str, err := redisClient.Ping(context.Background()).Result(); err != nil || str != "PONG" {
-		clog.Log.Panicf("初始化redis数据库异常:", err)
-		os.Exit(1)
+		clog.Log.Fatalln("初始化redis数据库异常:", err)
 	}
 
-	clog.Log.Infof("初始化redis数据库完成!")
+	clog.Log.Infoln("初始化redis数据库完成!")
 }

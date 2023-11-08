@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/Cheng1622/news_go_server/pkg/clog"
@@ -34,8 +33,7 @@ func InitMysql() {
 		DisableNestedTransaction: true,
 	})
 	if err != nil {
-		clog.Log.Panicf("初始化mysql数据库异常:", err)
-		os.Exit(1)
+		clog.Log.Fatalln("初始化mysql数据库异常:", err)
 	}
 	if config.Conf.Mysql.LogMode {
 		DB.Debug()
@@ -44,8 +42,7 @@ func InitMysql() {
 	// 获取通用数据库对象 sql.DB ，然后使用其提供的功能
 	sqlDB, err := DB.DB()
 	if err != nil {
-		clog.Log.Panicf("初始化mysql.DB数据库异常:", err)
-		os.Exit(1)
+		clog.Log.Fatalln("初始化mysql.DB数据库异常:", err)
 	}
 	// SetMaxIdleCons 设置连接池中的最大闲置连接数。
 	sqlDB.SetMaxIdleConns(10)
@@ -56,6 +53,6 @@ func InitMysql() {
 	// SetConnMaxLifetime 设置连接的最大可复用时间。
 	sqlDB.SetConnMaxLifetime(10 * time.Second)
 
-	clog.Log.Infof("初始化mysql数据库完成!")
+	clog.Log.Infoln("初始化mysql数据库完成!")
 
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/juju/ratelimit"
 )
 
-// RateLimitMiddleware 每fillInterval 秒 自动添加 cap 个数的令牌 注意参数 要用Time.Second 否则就是2ns了
+// RateLimitMiddleware fillInterval 指每过多长时间向桶里放一个令牌，capacity 是桶的容量
 func RateLimitMiddleware(fillInterval time.Duration, cap int64) func(c *gin.Context) {
 	bucket := ratelimit.NewBucket(fillInterval, cap)
 	return func(c *gin.Context) {

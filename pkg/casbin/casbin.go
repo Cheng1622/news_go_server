@@ -1,8 +1,6 @@
 package casbin
 
 import (
-	"os"
-
 	"github.com/Cheng1622/news_go_server/pkg/clog"
 	"github.com/Cheng1622/news_go_server/pkg/config"
 	"github.com/Cheng1622/news_go_server/pkg/mysql"
@@ -19,8 +17,7 @@ func InitCasbinEnforcer() {
 	var err error
 	CasbinEnforcer, err = mysqlCasbin()
 	if err != nil {
-		clog.Log.DPanicln("初始化Casbin失败:", err)
-		os.Exit(1)
+		clog.Log.Fatalln("初始化Casbin失败:", err)
 	}
 
 	clog.Log.Infoln("初始化Casbin完成!")

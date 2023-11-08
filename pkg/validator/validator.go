@@ -1,7 +1,6 @@
 package validator
 
 import (
-	"net/http"
 	"os"
 	"reflect"
 	"strings"
@@ -61,10 +60,10 @@ func HandleValidatorError(c *gin.Context, err error) {
 	//如何返回错误信息
 	errs, ok := err.(validator.ValidationErrors)
 	if !ok {
-		response.Error(c, http.StatusBadRequest, code.ValidateError, err.Error())
+		response.Error(c, code.ValidateError, err.Error())
 		return
 	}
-	response.Error(c, http.StatusBadRequest, code.ValidateError, removeTopStruct(errs.Translate(Trans)))
+	response.Error(c, code.ValidateError, removeTopStruct(errs.Translate(Trans)))
 }
 
 // removeTopStruct 定义一个去掉结构体名称前缀的自定义方法：

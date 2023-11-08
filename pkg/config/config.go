@@ -25,8 +25,7 @@ type config struct {
 
 type SystemConfig struct {
 	Mode            string `mapstructure:"mode" json:"mode"`
-	Host            string `mapstructure:"host" json:"host"`
-	Port            int    `mapstructure:"port" json:"port"`
+	Port            string `mapstructure:"port" json:"port"`
 	RSAPublicKey    string `mapstructure:"rsa-public-key" json:"rsaPublicKey"`
 	RSAPrivateKey   string `mapstructure:"rsa-private-key" json:"rsaPrivateKey"`
 	RSAPublicBytes  []byte `mapstructure:"-" json:"-"`
@@ -66,16 +65,14 @@ type CasbinConfig struct {
 }
 
 type JwtConfig struct {
-	Realm      string `mapstructure:"realm" json:"realm"`
-	Key        string `mapstructure:"key" json:"key"`
-	Timeout    int    `mapstructure:"timeout" json:"timeout"`
-	MaxRefresh int    `mapstructure:"max-refresh" json:"maxRefresh"`
+	Issuer  string `mapstructure:"issuer" json:"issuer"`
+	Subject string `mapstructure:"subject" json:"subject"`
+	Timeout int    `mapstructure:"timeout" json:"timeout"`
 }
 
 type RateLimitConfig struct {
 	FillInterval int64 `mapstructure:"fill-interval" json:"fillInterval"`
 	Capacity     int64 `mapstructure:"capacity" json:"capacity"`
-	Quantum      int64 `mapstructure:"quantum" json:"quantum"`
 }
 
 type SnowFlakeConfig struct {

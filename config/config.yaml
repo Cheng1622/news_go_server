@@ -3,7 +3,7 @@ system:
   # 设定模式(debug/release/test，正式版改为release)
   mode: debug
   # 程序监听端口
-  port: 8888
+  port: :8888
   # rsa公钥文件路径
   rsa-public-key: ./config/public_key.pem
   # rsa私钥文件路径
@@ -62,19 +62,17 @@ casbin:
 
 # jwt配置
 jwt:
-  # jwt标识
-  realm: 'test jwt'
-  # 服务端密钥
-  key: 'secret key'
+  # 签发人
+  issuer: 'cc-news'
+  # 主题
+  subject: 'usertoken'
   # token过期时间，小时
   timeout: 24
-  # 刷新token最大过期时间，小时
-  max-refresh: 24
 
 # 令牌桶限流配置
 ratelimit:
   # 填充一个令牌需要的时间间隔，毫秒
-  fill-interval: 50
+  fill-interval: 2
   # 桶容量
   capacity: 1000
 
