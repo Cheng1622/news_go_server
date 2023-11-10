@@ -3,10 +3,13 @@ package router
 import (
 	"time"
 
+	_ "github.com/Cheng1622/news_go_server/docs"
 	"github.com/Cheng1622/news_go_server/internal/middleware"
 	"github.com/Cheng1622/news_go_server/pkg/clog"
 	"github.com/Cheng1622/news_go_server/pkg/config"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // InitRouter 初始化
@@ -33,5 +36,11 @@ func InitRouter() *gin.Engine {
 }
 
 func GroupRouter(r *gin.Engine) {
-
+	// swagger
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// 路由分组
+	apiGroup := r.Group("/api/v1")
+	// 注册路由
+	InitBaseRouter(apiGroup) // 注册基础路由, 不需要jwt认证中间件,不需要casbin中间件
+	InitUserRouter(apiGroup) // 注册用户路由, jwt认证中间件,casbin鉴权中间件
 }

@@ -2,11 +2,10 @@ package snowflake
 
 import (
 	"fmt"
-	"log/slog"
-	"os"
 	"sync"
 	"time"
 
+	"github.com/Cheng1622/news_go_server/pkg/clog"
 	"github.com/Cheng1622/news_go_server/pkg/config"
 )
 
@@ -55,7 +54,7 @@ func (s *Snowflake) GenerateID() (int64, error) {
 	timestamp := time.Now().UnixNano() / 1000000 // 转换为毫秒级时间戳
 
 	if timestamp < s.lastTimestamp {
-		return 0, fmt.Errorf("clock moved backwards")
+		return 0, fmt.Errorf("时钟向后移动")
 	}
 
 	if timestamp == s.lastTimestamp {
@@ -83,7 +82,7 @@ func InitSnowflake() {
 	var err error
 	SF, err = NewSnowflake(config.Conf.SnowFlake.WorkerID, config.Conf.SnowFlake.DatacenterID) // 设置workerID和datacenterID
 	if err != nil {
-		slog.Error("Failed to create Snowflake:", err)
-		os.Exit(1)
+		clog.Log.Fatalln("初始化Snowflake失败:", err)
 	}
+	clog.Log.Infoln("初始化Snowflake成功")
 }

@@ -18,6 +18,8 @@ const (
 	Unauthorized
 	WithoutLogin
 	DisableAuth
+	PasswordError
+	UpdateError
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -36,6 +38,8 @@ var codeMsgMap = map[ResCode]string{
 	Unauthorized:  "JWT认证失败",
 	WithoutLogin:  "用户未登录",
 	DisableAuth:   "当前用户已被禁用",
+	PasswordError: "密码错误",
+	UpdateError:   "更新失败",
 }
 
 func (c ResCode) Msg() string {

@@ -12,13 +12,13 @@ var Redis *redis.Client
 
 // InitRedis Redis连接池配置
 func InitRedis() {
-	redisClient := redis.NewClient(&redis.Options{
+	Redis = redis.NewClient(&redis.Options{
 		Addr:     config.Conf.Redis.Addr,
 		Password: config.Conf.Redis.Password,
 		DB:       config.Conf.Redis.Database,
 	})
 
-	if str, err := redisClient.Ping(context.Background()).Result(); err != nil || str != "PONG" {
+	if str, err := Redis.Ping(context.Background()).Result(); err != nil || str != "PONG" {
 		clog.Log.Fatalln("初始化redis数据库异常:", err)
 	}
 

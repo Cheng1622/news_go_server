@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Role struct {
 	gorm.Model
+	RoleId  int64   `gorm:"type:varchar(255);not null;unique" json:"roleid"`
 	Name    string  `gorm:"type:varchar(20);not null;unique" json:"name"`
 	Keyword string  `gorm:"type:varchar(20);not null;unique" json:"keyword"`
 	Desc    *string `gorm:"type:varchar(100);" json:"desc"`

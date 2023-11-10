@@ -6,6 +6,7 @@ import (
 
 type Menu struct {
 	gorm.Model
+	MenuId     int64   `gorm:"type:varchar(255);not null;unique" json:"menuid"`
 	Name       string  `gorm:"type:varchar(50);comment:'菜单名称(英文名, 可用于国际化)'" json:"name"`
 	Title      string  `gorm:"type:varchar(50);comment:'菜单标题(无法国际化时使用)'" json:"title"`
 	Icon       *string `gorm:"type:varchar(50);comment:'菜单图标'" json:"icon"`

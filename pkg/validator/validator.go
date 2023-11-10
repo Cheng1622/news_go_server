@@ -1,7 +1,6 @@
 package validator
 
 import (
-	"os"
 	"reflect"
 	"strings"
 
@@ -39,8 +38,7 @@ func InitValidate() {
 		uni := ut.New(enT, zhT, enT)
 		Trans, ok = uni.GetTranslator(config.Conf.System.I18nLanguage)
 		if !ok {
-			clog.Log.Error("初始化validator.v10数据校验器失败")
-			os.Exit(1)
+			clog.Log.Fatalln("初始化validator.v10数据校验器失败")
 		}
 		switch config.Conf.System.I18nLanguage {
 		case "en":
