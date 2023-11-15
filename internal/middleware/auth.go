@@ -11,30 +11,32 @@ import (
 )
 
 // JwtMiddleware jwt中间件
-func JwtMiddleware() gin.HandlerFunc {
+func JwtMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		tokenStr := c.Request.Header.Get("auth-token")
 		//token不存在
 		if tokenStr == "" {
-			response.Error(c, code.Unauthorized, code.Unauthorized.Msg())
+			clog.Log.Errorln("token不存在")
+			response.Error(c, code.Unauthorized, "token不存在")
 			c.Abort() //阻止执行
 			return
 		}
 		//验证token
 		tokenStruck, err := jwt.ParseToken(tokenStr)
 		if err != nil {
-			response.Error(c, code.Unauthorized, code.Unauthorized.Msg())
+			clog.Log.Errorln("token错误:", err)
+			response.Error(c, code.Unauthorized, err.Error())
 			c.Abort() //阻止执行
 			return
 		}
 		//token超时
 		if time.Now().Unix() > tokenStruck.ExpiresAt {
-			response.Error(c, code.Unauthorized, code.Unauthorized.Msg())
+			clog.Log.Errorln("token超时")
+			response.Error(c, code.Unauthorized, "token超时")
 			c.Abort() //阻止执行
 			return
 		}
-		clog.Log.Infoln("userid:", tokenStruck.UserId)
-		c.Set("userid", tokenStruck.UserId)
+		c.Set("userid", tokenStruck.Userid)
 
 		c.Next()
 	}

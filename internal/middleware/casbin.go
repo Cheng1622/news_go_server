@@ -5,15 +5,11 @@ import (
 	"sync"
 
 	"github.com/Cheng1622/news_go_server/internal/service"
+	"github.com/Cheng1622/news_go_server/pkg/casbin"
+	"github.com/Cheng1622/news_go_server/pkg/clog"
 	"github.com/Cheng1622/news_go_server/pkg/code"
 	"github.com/Cheng1622/news_go_server/pkg/response"
-	"github.com/casbin/casbin/v2"
 	"github.com/gin-gonic/gin"
-)
-
-var (
-	checkLock      sync.Mutex
-	CasbinEnforcer *casbin.Enforcer // CasbinEnforcer 全局CasbinEnforcer
 )
 
 // CasbinMiddleware Casbin中间件, 基于RBAC的权限访问控制模型
@@ -44,9 +40,9 @@ func CasbinMiddleware() gin.HandlerFunc {
 		obj := strings.TrimPrefix(c.FullPath(), "/")
 		// 获取请求方式
 		act := c.Request.Method
-
-		isPass := check(subs, obj, act)
+		isPass := Check(subs, obj, act)
 		if !isPass {
+			clog.Log.Errorln("isPass:", isPass)
 			response.Error(c, code.AuthError, nil)
 			c.Abort()
 			return
@@ -55,13 +51,15 @@ func CasbinMiddleware() gin.HandlerFunc {
 	}
 }
 
-func check(subs []string, obj string, act string) bool {
+func Check(subs []string, obj string, act string) bool {
 	// 同一时间只允许一个请求执行校验, 否则可能会校验失败
+	var checkLock sync.Mutex
 	checkLock.Lock()
 	defer checkLock.Unlock()
 	isPass := false
 	for _, sub := range subs {
-		pass, _ := CasbinEnforcer.Enforce(sub, obj, act)
+		pass, _ := casbin.CasbinEnforcer.Enforce(sub, obj, act)
+		clog.Log.Errorln("aaa:", sub, obj, act)
 		if pass {
 			isPass = true
 			break

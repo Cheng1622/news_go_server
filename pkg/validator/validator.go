@@ -57,8 +57,9 @@ func InitValidate() {
 func HandleValidatorError(c *gin.Context, err error) {
 	//如何返回错误信息
 	errs, ok := err.(validator.ValidationErrors)
+	clog.Log.Errorln("字段校验异常:", err)
 	if !ok {
-		response.Error(c, code.ValidateError, err.Error())
+		response.Error(c, code.ValidateError, nil)
 		return
 	}
 	response.Error(c, code.ValidateError, removeTopStruct(errs.Translate(Trans)))

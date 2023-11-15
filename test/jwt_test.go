@@ -22,10 +22,10 @@ func TestGenToken(t *testing.T) {
 
 func TestParseToken(t *testing.T) {
 	config.InitConfig()
-	a := `eyJhbGciOiJQUzUxMiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjM3ODAzODI4NTI0MDUwNDMyMCwiZXhwIjoxNjk5Njc2OTUwLCJpYXQiOjE2OTk1OTA1NTAsImlzcyI6ImNjLW5ld3MiLCJzdWIiOiJ1c2VydG9rZW4ifQ.fveWtfHNcYWi5SsySh9gfNzx8jc3552TW6lB6excYg6no5LvXLHjxz2L0eGh4WkFrE3_Y-cLnQNtG5X6-UErwCB3XFK28Q5FEyVImQxqzGQwFGYHjDARwrzHQqxy2AKXvGh-LOTw7R0pW_T3pHB9pDCZ48wPi29Uti47ZkIoHIe6t8q1AT2Y-Caa5BFJ4-NUrUHykjmWb4-Kj3QytBWLCq7OecoU6jvr3iU4QbDEoyDN3A3PygLAaM25SDoWrZ21oAtpmKAFvz1y0gJoinANWKFAjn8pGC3wCqhw462Nua0NEUrd0aSpoc7sLCEd30Obg3y8w5wC0r0bt2dwOVS9Hg`
+	a := `eyJhbGciOiJQUzUxMiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOjM3OTE5Mzc2NTIxMjA2NTc5MiwiZXhwIjoxNjk5OTc2OTY5LCJpYXQiOjE2OTk4OTA1NjksImlzcyI6ImNjLW5ld3MiLCJzdWIiOiJ1c2VydG9rZW4ifQ.i8emLtwSKcRRcSrRN3D8MZWuLfKOSE9RF73tJbqcgbpLLU8ZM7GL9JHPXU-XAthKzrrc-yrqSqWO9FSc3chsVOUwYM1X-Rxrs5DV5d20V7ZkZWtpVG-mJoH4rVygcsqUsn3EfTpfAuZts5MRY_rc8AjMtgDsidtKVTj2nteP_h4oX-EFgvzXtD8I9LIZNP0q9o8-OPRJWLabj9jHcJJxE680Vrjr7X7IPjtilg_EYA6mgfMiEYBxZ_b39N7EdWpWaF8l5lj2V9SGsGwC2vqfODHxkifFpojn-BkEX6N9G21Kr8K7qeBz2hqU_SndjEEwNnx2onnshctP-YTX0M2f_w`
 	b, err := jwt.ParseToken(a)
 	if err != nil {
 		t.Fatal("err:", err)
 	}
-	t.Fatal("ok", b.UserId)
+	t.Fatal("ok", b.Userid)
 }

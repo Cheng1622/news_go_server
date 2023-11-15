@@ -10,7 +10,7 @@ type RegisterAndLoginRequest struct {
 
 // 创建用户结构体
 type CreateUserRequest struct {
-	UserId       int64  `form:"userid" json:"userid"`
+	Userid       int64  `form:"userid" json:"userid"`
 	Username     string `form:"username" json:"username" validate:"required,min=2,max=20"`
 	Password     string `form:"password" json:"password"  validate:"required,min=6"`
 	Mobile       string `form:"mobile" json:"mobile" validate:"required,checkMobile"`
@@ -23,7 +23,7 @@ type CreateUserRequest struct {
 
 // 获取用户列表结构体
 type UserListRequest struct {
-	UserId   int64  `json:"userid" form:"userid"`
+	Userid   int64  `json:"userid" form:"userid"`
 	Username string `json:"username" form:"username" `
 	Mobile   string `json:"mobile" form:"mobile" `
 	Nickname string `json:"nickname" form:"nickname" `
@@ -34,7 +34,7 @@ type UserListRequest struct {
 
 // 批量删除用户结构体
 type DeleteUserRequest struct {
-	UserIds []uint `json:"userIds" form:"userIds"`
+	Userids []uint `json:"userIds" form:"userIds"`
 }
 
 // 更新密码结构体

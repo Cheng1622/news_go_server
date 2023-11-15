@@ -47,6 +47,7 @@ func NewSnowflake(workerID, datacenterID int64) (*Snowflake, error) {
 	}, nil
 }
 
+// GenerateID 获得雪花算法ID
 func (s *Snowflake) GenerateID() (int64, error) {
 	s.mu.Lock()
 	defer s.mu.Unlock()

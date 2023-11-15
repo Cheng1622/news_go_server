@@ -12,7 +12,6 @@ import (
 type CaptchaService interface {
 	SetCaptcha(id string, answer string) error // 数字验证码存 set key
 	GetCaptcha(id string) string               // 数字验证码存 get key
-
 }
 
 type Captcha struct{}

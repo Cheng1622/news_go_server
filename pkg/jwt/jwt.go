@@ -10,7 +10,7 @@ import (
 )
 
 type JwtClaims struct {
-	UserId int64
+	Userid int64
 	jwt.StandardClaims
 }
 
@@ -23,7 +23,7 @@ func GenToken(userid int64) (string, error) {
 	}
 
 	c := JwtClaims{
-		UserId: userid,
+		Userid: userid,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Duration(config.Conf.Jwt.Timeout) * time.Hour).Unix(), //过期时间
 			Issuer:    config.Conf.Jwt.Issuer,                                                    // 签发人
@@ -54,6 +54,6 @@ func ParseToken(tokenString string) (*JwtClaims, error) {
 		return mc, nil
 	}
 
-	return nil, errors.New("invalid token")
+	return nil, errors.New("token错误")
 
 }

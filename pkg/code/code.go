@@ -16,6 +16,7 @@ const (
 	EmptyFile
 	RateLimit
 	Unauthorized
+	LoginError
 	WithoutLogin
 	DisableAuth
 	PasswordError
@@ -36,6 +37,7 @@ var codeMsgMap = map[ResCode]string{
 	EmptyFile:     "文件为空",
 	RateLimit:     "访问限流",
 	Unauthorized:  "JWT认证失败",
+	LoginError:    "登录失败",
 	WithoutLogin:  "用户未登录",
 	DisableAuth:   "当前用户已被禁用",
 	PasswordError: "密码错误",

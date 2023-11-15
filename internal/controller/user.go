@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
-
 	"github.com/Cheng1622/news_go_server/internal/model"
 	"github.com/Cheng1622/news_go_server/internal/model/repo"
 	"github.com/Cheng1622/news_go_server/internal/model/requ"
@@ -10,6 +8,7 @@ import (
 	"github.com/Cheng1622/news_go_server/pkg/clog"
 	"github.com/Cheng1622/news_go_server/pkg/code"
 	"github.com/Cheng1622/news_go_server/pkg/encrypt"
+	"github.com/Cheng1622/news_go_server/pkg/jwt"
 	"github.com/Cheng1622/news_go_server/pkg/response"
 	"github.com/Cheng1622/news_go_server/pkg/snowflake"
 	"github.com/Cheng1622/news_go_server/pkg/validator"
@@ -18,6 +17,7 @@ import (
 )
 
 type UserApi interface {
+	Login(c *gin.Context)       // 登录
 	GetUserInfo(c *gin.Context) // 获取当前登录用户信息
 	GetUsers(c *gin.Context)    // 获取用户列表
 	ChangePwd(c *gin.Context)   // 更新用户登录密码
@@ -34,6 +34,39 @@ func NewUserApi() UserApi {
 	return UserApiService{User: service.NewUserService()}
 }
 
+// 校验token的正确性, 处理登录逻辑
+// @Tags Base
+// @Summary 用户登录
+// @Produce  application/json
+// @Param data body  requ.RegisterAndLoginRequest true "用户名, 密码, 验证码"
+// @Success 200 {object} response.Response{data,msg=string} "返回包括用户信息,token,过期时间"
+// @Router /api/base/login [post]
+func (us UserApiService) Login(c *gin.Context) {
+	var req requ.RegisterAndLoginRequest
+	// 请求json绑定
+	if err := c.ShouldBind(&req); err != nil {
+		// 参数校验
+		validator.HandleValidatorError(c, err)
+		return
+	}
+	// 密码校验
+	user, err := us.User.Login(&req)
+	if err != nil {
+		response.Error(c, code.LoginError, err.Error())
+		return
+	}
+	token, err := jwt.GenToken(*user)
+	if err != nil {
+		response.Error(c, code.LoginError, err.Error())
+		return
+	}
+	response.Success(c, code.SUCCESS,
+		map[string]interface{}{
+			"token": token,
+		})
+
+}
+
 // GetUserInfo 获取当前登录用户信息
 func (us UserApiService) GetUserInfo(c *gin.Context) {
 	user, err := us.User.GetCurrentUser(c)
@@ -42,6 +75,7 @@ func (us UserApiService) GetUserInfo(c *gin.Context) {
 		response.Error(c, code.ServerErr, nil)
 		return
 	}
+
 	userInforesponsep := repo.ToUserInfoResp(user)
 	// 成功返回
 	response.Success(c, code.SUCCESS, map[string]interface{}{
@@ -90,7 +124,7 @@ func (us UserApiService) ChangePwd(c *gin.Context) {
 	user, err := us.User.GetCurrentUser(c)
 	if err != nil {
 		// 错误返回
-		response.Error(c, code.ServerErr, nil)
+		response.Error(c, code.ServerErr, err.Error())
 		return
 	}
 	// 获取用户的真实正确密码
@@ -128,6 +162,7 @@ func (us UserApiService) CreateUser(c *gin.Context) {
 	currentRoleSortMin, ctxUser, err := us.User.GetCurrentUserMinRoleSort(c)
 	if err != nil {
 		// 错误返回
+		clog.Log.Errorln("获取当前用户角色排序最小值失败:", err.Error())
 		response.Error(c, code.ServerErr, nil)
 		return
 	}
@@ -166,7 +201,7 @@ func (us UserApiService) CreateUser(c *gin.Context) {
 
 	userid, _ := snowflake.SF.GenerateID()
 	user := model.User{
-		UserId:       userid,
+		Userid:       userid,
 		Username:     req.Username,
 		Password:     encrypt.NewGenPasswd(req.Password),
 		Mobile:       req.Mobile,
@@ -187,39 +222,5 @@ func (us UserApiService) CreateUser(c *gin.Context) {
 	// 成功返回
 	response.Success(c, code.SUCCESS, nil)
 	return
-
-}
-
-// 校验token的正确性, 处理登录逻辑
-// @Tags Base
-// @Summary 用户登录
-// @Produce  application/json
-// @Param data body  requ.RegisterAndLoginRequest true "用户名, 密码, 验证码"
-// @Success 200 {object} response.Response{data,msg=string} "返回包括用户信息,token,过期时间"
-// @Router /api/base/login [post]
-func Login(c *gin.Context) {
-	var req requ.RegisterAndLoginRequest
-	// 请求json绑定
-	if err := c.ShouldBind(&req); err != nil {
-		// 参数校验
-		validator.HandleValidatorError(c, err)
-		return
-	}
-	// 密码校验
-	UserService := service.NewUserService()
-	user, err := UserService.Login(&req)
-	if err != nil {
-		response.Error(c, code.AuthError, nil)
-		return
-	}
-	userstr, err := json.Marshal(user)
-	if err != nil {
-		response.Error(c, code.ServerErr, nil)
-		return
-	}
-	response.Success(c, code.SUCCESS,
-		map[string]interface{}{
-			"user": userstr,
-		})
 
 }

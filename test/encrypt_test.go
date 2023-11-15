@@ -12,6 +12,6 @@ func TestEncrypt(t *testing.T) {
 	config.InitConfig()
 	clog.InitLogger()
 	a := encrypt.NewGenPasswd("123456")
-	b := encrypt.NewParPasswd(a)
-	t.Fatal(b)
+	// b := encrypt.NewParPasswd(a)
+	t.Fatal(a)
 }

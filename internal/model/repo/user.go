@@ -4,7 +4,7 @@ import "github.com/Cheng1622/news_go_server/internal/model"
 
 // 返回给前端的当前用户信息
 type UserInfoResp struct {
-	ID           uint          `json:"id"`
+	Userid       int64         `json:"userid,string"`
 	Username     string        `json:"username"`
 	Mobile       string        `json:"mobile"`
 	Avatar       string        `json:"avatar"`
@@ -15,7 +15,7 @@ type UserInfoResp struct {
 
 func ToUserInfoResp(user model.User) UserInfoResp {
 	return UserInfoResp{
-		ID:           user.ID,
+		Userid:       user.Userid,
 		Username:     user.Username,
 		Mobile:       user.Mobile,
 		Avatar:       user.Avatar,
@@ -27,22 +27,22 @@ func ToUserInfoResp(user model.User) UserInfoResp {
 
 // 返回给前端的用户列表
 type UsersResp struct {
-	ID           uint   `json:"ID"`
-	Username     string `json:"username"`
-	Mobile       string `json:"mobile"`
-	Avatar       string `json:"avatar"`
-	Nickname     string `json:"nickname"`
-	Introduction string `json:"introduction"`
-	Status       uint   `json:"status"`
-	Creator      string `json:"creator"`
-	RoleIds      []uint `json:"roleIds"`
+	Userid       int64   `json:"userid,string"`
+	Username     string  `json:"username"`
+	Mobile       string  `json:"mobile"`
+	Avatar       string  `json:"avatar"`
+	Nickname     string  `json:"nickname"`
+	Introduction string  `json:"introduction"`
+	Status       uint    `json:"status"`
+	Creator      string  `json:"creator"`
+	RoleIds      []int64 `json:"roleIds"`
 }
 
 func ToUsersResp(userList []*model.User) []UsersResp {
 	var users []UsersResp
 	for _, user := range userList {
 		userResp := UsersResp{
-			ID:           user.ID,
+			Userid:       user.Userid,
 			Username:     user.Username,
 			Mobile:       user.Mobile,
 			Avatar:       user.Avatar,
@@ -51,9 +51,9 @@ func ToUsersResp(userList []*model.User) []UsersResp {
 			Status:       user.Status,
 			Creator:      user.Creator,
 		}
-		roleIds := make([]uint, 0)
+		roleIds := make([]int64, 0)
 		for _, role := range user.Roles {
-			roleIds = append(roleIds, role.ID)
+			roleIds = append(roleIds, role.Roleid)
 		}
 		userResp.RoleIds = roleIds
 		users = append(users, userResp)

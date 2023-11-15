@@ -10,6 +10,7 @@ import (
 
 func TestSnowFlake(t *testing.T) {
 	config.InitConfig()
+	clog.InitLogger()
 	snowflake.InitSnowflake()
 
 	a, err := snowflake.SF.GenerateID()
