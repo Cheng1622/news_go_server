@@ -2,7 +2,6 @@ package requ
 
 // 新增角色结构体
 type CreateRoleRequest struct {
-	RoleId  int64  `json:"roleid" form:"roleid" validate:"required"`
 	Name    string `json:"name" form:"name" validate:"required,min=1,max=20"`
 	Keyword string `json:"keyword" form:"keyword" validate:"required,min=1,max=20"`
 	Desc    string `json:"desc" form:"desc" validate:"min=0,max=100"`
@@ -12,7 +11,6 @@ type CreateRoleRequest struct {
 
 // 获取用户角色结构体
 type RoleListRequest struct {
-	RoleId   int64  `json:"roleid" form:"roleid"`
 	Name     string `json:"name" form:"name"`
 	Keyword  string `json:"keyword" form:"keyword"`
 	Status   uint   `json:"status" form:"status"`

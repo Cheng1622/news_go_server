@@ -53,7 +53,7 @@ func ToUsersResp(userList []*model.User) []UsersResp {
 		}
 		roleIds := make([]int64, 0)
 		for _, role := range user.Roles {
-			roleIds = append(roleIds, role.Roleid)
+			roleIds = append(roleIds, int64(role.ID))
 		}
 		userResp.RoleIds = roleIds
 		users = append(users, userResp)

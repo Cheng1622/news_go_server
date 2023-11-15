@@ -39,6 +39,6 @@ type DeleteUserRequest struct {
 
 // 更新密码结构体
 type ChangePwdRequest struct {
-	OldPassword string `json:"oldPassword" form:"oldPassword" validate:"required"`
-	NewPassword string `json:"newPassword" form:"newPassword" validate:"required"`
+	OldPassword string `json:"oldPassword" form:"oldPassword" binding:"required" validate:"required"`
+	NewPassword string `json:"newPassword" form:"newPassword" binding:"required" validate:"required"`
 }

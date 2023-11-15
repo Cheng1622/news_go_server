@@ -42,7 +42,6 @@ func CasbinMiddleware() gin.HandlerFunc {
 		act := c.Request.Method
 		isPass := Check(subs, obj, act)
 		if !isPass {
-			clog.Log.Errorln("isPass:", isPass)
 			response.Error(c, code.AuthError, nil)
 			c.Abort()
 			return

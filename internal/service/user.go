@@ -30,7 +30,7 @@ type UserService interface {
 	GetCurrentUserMinRoleSort(c *gin.Context) (uint, model.User, error) // 获取当前用户角色排序最小值（最高等级角色）以及当前用户信息
 	GetUserMinRoleSortsByIds(ids []int64) ([]int, error)                // 根据用户ID获取用户角色排序最小值
 	SetUserInfoCache(username string, user model.User)                  // 设置用户信息缓存
-	UpdateUserInfoCacheByRoleId(roleId int64) error                     // 根据角色ID更新拥有该角色的用户信息缓存
+	UpdateUserInfoCacheByRoleId(roleId uint) error                      // 根据角色ID更新拥有该角色的用户信息缓存
 	ClearUserInfoCache()                                                // 清理所有用户信息缓存
 }
 
@@ -289,7 +289,7 @@ func (ud User) SetUserInfoCache(username string, user model.User) {
 }
 
 // UpdateUserInfoCacheByRoleId 根据角色ID更新拥有该角色的用户信息缓存
-func (ud User) UpdateUserInfoCacheByRoleId(roleId int64) error {
+func (ud User) UpdateUserInfoCacheByRoleId(roleId uint) error {
 
 	var role model.Role
 	err := mysql.DB.Where("id = ?", roleId).Preload("Users").First(&role).Error
