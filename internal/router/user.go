@@ -19,6 +19,8 @@ func InitUserRouter(r *gin.RouterGroup) gin.IRouter {
 		router.GET("/list", userApi.GetUsers)
 		router.PUT("/changePwd", userApi.ChangePwd)
 		router.POST("/create", userApi.CreateUser)
+		router.PATCH("/update/:userId", userApi.UpdateUserById)
+		router.DELETE("/delete/batch", userApi.BatchDeleteUserByIds)
 	}
 	return r
 }

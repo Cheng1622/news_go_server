@@ -124,6 +124,8 @@ definitions:
     properties:
       avatar:
         type: string
+      email:
+        type: string
       introduction:
         type: string
       mobile:
@@ -154,6 +156,8 @@ definitions:
     properties:
       avatar:
         type: string
+      email:
+        type: string
       introduction:
         maxLength: 255
         minLength: 0
@@ -183,10 +187,18 @@ definitions:
         minLength: 2
         type: string
     required:
+    - email
     - mobile
     - password
     - roleIds
     - username
+    type: object
+  github_com_Cheng1622_news_go_server_internal_model_requ.DeleteUserRequest:
+    properties:
+      userIds:
+        items:
+          type: integer
+        type: array
     type: object
   github_com_Cheng1622_news_go_server_internal_model_requ.RegisterAndLoginRequest:
     properties:
@@ -317,6 +329,48 @@ paths:
       summary: 用户登录
       tags:
       - Base
+  /api/v1/delete/batch:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.DeleteUserRequest'
+      produces:
+      - application/json
+      responses:
+        "1000":
+          description: 批量删除用户,返回成功
+          schema:
+            $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
+      summary: 批量删除用户
+      tags:
+      - User
+  /api/v1/update/:userId:
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "1000":
+          description: 更新用户,返回成功
+          schema:
+            $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
+      summary: 更新用户
+      tags:
+      - User
   /api/v1/user/changePwd:
     put:
       consumes:

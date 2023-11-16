@@ -7,6 +7,7 @@ type UserInfoResp struct {
 	Userid       int64         `json:"userid,string"`
 	Username     string        `json:"username"`
 	Mobile       string        `json:"mobile"`
+	Email        string        `json:"email"`
 	Avatar       string        `json:"avatar"`
 	Nickname     string        `json:"nickname"`
 	Introduction string        `json:"introduction"`
@@ -18,6 +19,7 @@ func ToUserInfoResp(user model.User) UserInfoResp {
 		Userid:       user.Userid,
 		Username:     user.Username,
 		Mobile:       user.Mobile,
+		Email:        user.Email,
 		Avatar:       user.Avatar,
 		Nickname:     *user.Nickname,
 		Introduction: *user.Introduction,
@@ -30,6 +32,7 @@ type UsersResp struct {
 	Userid       int64   `json:"userid,string"`
 	Username     string  `json:"username"`
 	Mobile       string  `json:"mobile"`
+	Email        string  `json:"email"`
 	Avatar       string  `json:"avatar"`
 	Nickname     string  `json:"nickname"`
 	Introduction string  `json:"introduction"`
@@ -45,6 +48,7 @@ func ToUsersResp(userList []*model.User) []UsersResp {
 			Userid:       user.Userid,
 			Username:     user.Username,
 			Mobile:       user.Mobile,
+			Email:        user.Email,
 			Avatar:       user.Avatar,
 			Nickname:     *user.Nickname,
 			Introduction: *user.Introduction,
