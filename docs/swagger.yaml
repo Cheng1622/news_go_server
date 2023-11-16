@@ -1,5 +1,219 @@
 definitions:
-  code.ResCode:
+  github_com_Cheng1622_news_go_server_internal_model.Menu:
+    properties:
+      activeMenu:
+        type: string
+      alwaysShow:
+        type: integer
+      breadcrumb:
+        type: integer
+      children:
+        description: 子菜单集合
+        items:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model.Menu'
+        type: array
+      component:
+        type: string
+      createdAt:
+        type: string
+      creator:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      hidden:
+        type: integer
+      icon:
+        type: string
+      id:
+        type: integer
+      menuid:
+        type: integer
+      name:
+        type: string
+      noCache:
+        type: integer
+      parentId:
+        type: integer
+      path:
+        type: string
+      redirect:
+        type: string
+      roles:
+        description: 角色菜单多对多关系
+        items:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model.Role'
+        type: array
+      sort:
+        type: integer
+      status:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  github_com_Cheng1622_news_go_server_internal_model.Role:
+    properties:
+      createdAt:
+        type: string
+      creator:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      desc:
+        type: string
+      id:
+        type: integer
+      keyword:
+        type: string
+      menus:
+        description: 角色菜单多对多关系
+        items:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model.Menu'
+        type: array
+      name:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
+      updatedAt:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model.User'
+        type: array
+    type: object
+  github_com_Cheng1622_news_go_server_internal_model.User:
+    properties:
+      avatar:
+        type: string
+      createdAt:
+        type: string
+      creator:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      introduction:
+        type: string
+      mobile:
+        type: string
+      nickname:
+        type: string
+      password:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model.Role'
+        type: array
+      status:
+        type: integer
+      updatedAt:
+        type: string
+      userid:
+        example: "0"
+        type: string
+      username:
+        type: string
+    type: object
+  github_com_Cheng1622_news_go_server_internal_model_repo.UserInfoResp:
+    properties:
+      avatar:
+        type: string
+      introduction:
+        type: string
+      mobile:
+        type: string
+      nickname:
+        type: string
+      roles:
+        items:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model.Role'
+        type: array
+      userid:
+        example: "0"
+        type: string
+      username:
+        type: string
+    type: object
+  github_com_Cheng1622_news_go_server_internal_model_requ.ChangePwdRequest:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    required:
+    - newPassword
+    - oldPassword
+    type: object
+  github_com_Cheng1622_news_go_server_internal_model_requ.CreateUserRequest:
+    properties:
+      avatar:
+        type: string
+      introduction:
+        maxLength: 255
+        minLength: 0
+        type: string
+      mobile:
+        type: string
+      nickname:
+        maxLength: 20
+        minLength: 0
+        type: string
+      password:
+        minLength: 6
+        type: string
+      roleIds:
+        items:
+          type: integer
+        type: array
+      status:
+        enum:
+        - 1
+        - 2
+        type: integer
+      userid:
+        type: integer
+      username:
+        maxLength: 20
+        minLength: 2
+        type: string
+    required:
+    - mobile
+    - password
+    - roleIds
+    - username
+    type: object
+  github_com_Cheng1622_news_go_server_internal_model_requ.RegisterAndLoginRequest:
+    properties:
+      captchaId:
+        type: string
+      code:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - captchaId
+    - code
+    - password
+    - username
+    type: object
+  github_com_Cheng1622_news_go_server_pkg_captcha.CaptchaResponse:
+    properties:
+      captcha:
+        type: string
+      captchaId:
+        type: string
+      picPath:
+        type: string
+    type: object
+  github_com_Cheng1622_news_go_server_pkg_code.ResCode:
     enum:
     - 1000
     - 1001
@@ -18,6 +232,7 @@ definitions:
     - 1014
     - 1015
     - 1016
+    - 1017
     type: integer
     x-enum-varnames:
     - SUCCESS
@@ -33,77 +248,151 @@ definitions:
     - EmptyFile
     - RateLimit
     - Unauthorized
+    - LoginError
     - WithoutLogin
     - DisableAuth
     - PasswordError
     - UpdateError
-  requ.RegisterAndLoginRequest:
-    properties:
-      captchaId:
-        type: string
-      code:
-        type: string
-      password:
-        type: string
-      username:
-        type: string
-    required:
-    - captchaId
-    - code
-    - password
-    - username
-    type: object
-  response.Response:
+  github_com_Cheng1622_news_go_server_pkg_response.Response:
     properties:
       code:
-        $ref: '#/definitions/code.ResCode'
+        $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_code.ResCode'
       data: {}
       msg: {}
     type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
 info:
-  contact: {}
+  contact:
+    email: cchen1622@gmail.com
+    name: Cheng1622
+  description: news_go_server业务接口文档集合
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: news_go_server
+  version: v.1.0.0
 paths:
-  /api/base/captcha:
-    post:
+  /api/v1/base/captcha:
+    get:
       consumes:
       - application/json
       produces:
       - application/json
       responses:
-        "200":
+        "1000":
           description: 生成验证码,返回包括随机数id,base64,验证码长度
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
             - properties:
-                msg:
-                  type: string
+                data:
+                  $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_captcha.CaptchaResponse'
               type: object
       summary: 生成验证码
       tags:
       - Base
-  /api/base/login:
+  /api/v1/base/login:
     post:
       parameters:
-      - description: 用户名, 密码, 验证码
+      - description: 用户名,密码,验证码
         in: body
         name: data
         required: true
         schema:
-          $ref: '#/definitions/requ.RegisterAndLoginRequest'
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.RegisterAndLoginRequest'
       produces:
       - application/json
       responses:
-        "200":
-          description: 返回包括用户信息,token,过期时间
+        "1000":
+          description: 用户登录,返回token
           schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                msg:
-                  type: string
-              type: object
+            $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
       summary: 用户登录
       tags:
       - Base
+  /api/v1/user/changePwd:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 旧密码,新密码
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.ChangePwdRequest'
+      produces:
+      - application/json
+      responses:
+        "1000":
+          description: 更新用户登录密码,返回成功
+          schema:
+            $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
+      summary: 更新用户登录密码
+      tags:
+      - User
+  /api/v1/user/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户信息
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "1000":
+          description: 创建用户,返回成功
+          schema:
+            $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
+      summary: 创建用户
+      tags:
+      - User
+  /api/v1/user/info:
+    get:
+      produces:
+      - application/json
+      responses:
+        "1000":
+          description: 获取当前登录用户信息,返回userInfo
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model_repo.UserInfoResp'
+              type: object
+      summary: 获取当前登录用户信息
+      tags:
+      - User
+  /api/v1/user/list:
+    get:
+      produces:
+      - application/json
+      responses:
+        "1000":
+          description: 获取用户列表,返回userInfo和total
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/github_com_Cheng1622_news_go_server_internal_model_repo.UserInfoResp'
+                  type: array
+              type: object
+      summary: 获取用户列表
+      tags:
+      - User
 swagger: "2.0"

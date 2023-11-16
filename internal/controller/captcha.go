@@ -20,12 +20,13 @@ func NewCaptchaApi() CaptchaService {
 	return CaptchaApiService{}
 }
 
-// @Tags Base
-// @Summary 生成验证码
-// @accept application/json
-// @Produce application/json
-// @Success 200 {object} response.Response{data,msg=string} "生成验证码,返回包括随机数id,base64,验证码长度"
-// @Router /api/base/captcha [post]
+// Captcha 生成验证码
+// @Tags		Base
+// @Summary	生成验证码
+// @accept		application/json
+// @Produce	application/json
+// @Success	1000	{object}	response.Response{data=captcha.CaptchaResponse}	"生成验证码,返回包括随机数id,base64,验证码长度"
+// @Router		/api/v1/base/captcha [get]
 func (cs CaptchaApiService) Captcha(c *gin.Context) {
 	CaptchaReq := &captcha.CaptchaReq{
 		ImgHeight: 80,

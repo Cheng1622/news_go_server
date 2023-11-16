@@ -34,13 +34,14 @@ func NewUserApi() UserApi {
 	return UserApiService{User: service.NewUserService()}
 }
 
-// 校验token的正确性, 处理登录逻辑
-// @Tags Base
-// @Summary 用户登录
-// @Produce  application/json
-// @Param data body  requ.RegisterAndLoginRequest true "用户名, 密码, 验证码"
-// @Success 200 {object} response.Response{data,msg=string} "返回包括用户信息,token,过期时间"
-// @Router /api/base/login [post]
+// Login 校验token的正确性, 处理登录逻辑
+//
+//	@Tags		Base
+//	@Summary	用户登录
+//	@Produce	application/json
+//	@Param		data	body		requ.RegisterAndLoginRequest	true	"用户名,密码,验证码"
+//	@Success	1000	{object}	response.Response{data}			"用户登录,返回token"
+//	@Router		/api/v1/base/login [post]
 func (us UserApiService) Login(c *gin.Context) {
 	var req requ.RegisterAndLoginRequest
 	// 请求json绑定
@@ -61,13 +62,18 @@ func (us UserApiService) Login(c *gin.Context) {
 		return
 	}
 	response.Success(c, code.SUCCESS,
-		map[string]interface{}{
+		gin.H{
 			"token": token,
 		})
-
 }
 
 // GetUserInfo 获取当前登录用户信息
+//
+//	@Tags		User
+//	@Summary	获取当前登录用户信息
+//	@Produce	application/json
+//	@Success	1000	{object}	response.Response{data=repo.UserInfoResp}	"获取当前登录用户信息,返回userInfo"
+//	@Router		/api/v1/user/info [get]
 func (us UserApiService) GetUserInfo(c *gin.Context) {
 	user, err := us.User.GetCurrentUser(c)
 	if err != nil {
@@ -78,14 +84,18 @@ func (us UserApiService) GetUserInfo(c *gin.Context) {
 
 	userInforesponsep := repo.ToUserInfoResp(user)
 	// 成功返回
-	response.Success(c, code.SUCCESS, map[string]interface{}{
+	response.Success(c, code.SUCCESS, gin.H{
 		"userInfo": userInforesponsep,
 	})
-	return
-
 }
 
 // GetUsers 获取用户列表
+//
+//	@Tags		User
+//	@Summary	获取用户列表
+//	@Produce	application/json
+//	@Success	1000	{object}	response.Response{data=[]repo.UserInfoResp}	"获取用户列表,返回userInfo和total"
+//	@Router		/api/v1/user/list [get]
 func (us UserApiService) GetUsers(c *gin.Context) {
 	var req requ.UserListRequest
 	// 参数绑定
@@ -102,14 +112,21 @@ func (us UserApiService) GetUsers(c *gin.Context) {
 		return
 	}
 	// 成功返回
-	response.Success(c, code.SUCCESS, map[string]interface{}{
+	response.Success(c, code.SUCCESS, gin.H{
 		"users": repo.ToUsersResp(users),
 		"total": total,
 	})
-	return
 }
 
 // ChangePwd 更新用户登录密码
+//
+//	@Tags		User
+//	@Summary	更新用户登录密码
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		requ.ChangePwdRequest		true	"旧密码,新密码"
+//	@Success	1000	{object}	response.Response{}	"更新用户登录密码,返回成功"
+//	@Router		/api/v1/user/changePwd [put]
 func (us UserApiService) ChangePwd(c *gin.Context) {
 	var req requ.ChangePwdRequest
 
@@ -145,10 +162,17 @@ func (us UserApiService) ChangePwd(c *gin.Context) {
 	}
 	// 成功返回
 	response.Success(c, code.SUCCESS, nil)
-	return
 }
 
 // CreateUser 创建用户
+//
+//	@Tags		User
+//	@Summary	创建用户
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		requ.CreateUserRequest		true	"用户信息"
+//	@Success	1000	{object}	response.Response{}	"创建用户,返回成功"
+//	@Router		/api/v1/user/create [post]
 func (us UserApiService) CreateUser(c *gin.Context) {
 	var req requ.CreateUserRequest
 	// 参数绑定
@@ -221,6 +245,4 @@ func (us UserApiService) CreateUser(c *gin.Context) {
 	}
 	// 成功返回
 	response.Success(c, code.SUCCESS, nil)
-	return
-
 }

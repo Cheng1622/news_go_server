@@ -1,11 +1,21 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "news_go_server业务接口文档集合",
+        "title": "news_go_server",
+        "contact": {
+            "name": "Cheng1622",
+            "email": "cchen1622@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "v.1.0.0"
     },
     "paths": {
-        "/api/base/captcha": {
-            "post": {
+        "/api/v1/base/captcha": {
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -17,18 +27,18 @@
                 ],
                 "summary": "生成验证码",
                 "responses": {
-                    "200": {
+                    "1000": {
                         "description": "生成验证码,返回包括随机数id,base64,验证码长度",
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "msg": {
-                                            "type": "string"
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_captcha.CaptchaResponse"
                                         }
                                     }
                                 }
@@ -38,7 +48,7 @@
                 }
             }
         },
-        "/api/base/login": {
+        "/api/v1/base/login": {
             "post": {
                 "produces": [
                     "application/json"
@@ -49,28 +59,147 @@
                 "summary": "用户登录",
                 "parameters": [
                     {
-                        "description": "用户名, 密码, 验证码",
+                        "description": "用户名,密码,验证码",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/requ.RegisterAndLoginRequest"
+                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.RegisterAndLoginRequest"
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "返回包括用户信息,token,过期时间",
+                    "1000": {
+                        "description": "用户登录,返回token",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/changePwd": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "更新用户登录密码",
+                "parameters": [
+                    {
+                        "description": "旧密码,新密码",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.ChangePwdRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "description": "更新用户登录密码,返回成功",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/create": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "创建用户",
+                "parameters": [
+                    {
+                        "description": "用户信息",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model_requ.CreateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "1000": {
+                        "description": "创建用户,返回成功",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/info": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "获取当前登录用户信息",
+                "responses": {
+                    "1000": {
+                        "description": "获取当前登录用户信息,返回userInfo",
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "msg": {
-                                            "type": "string"
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model_repo.UserInfoResp"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/user/list": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "获取用户列表",
+                "responses": {
+                    "1000": {
+                        "description": "获取用户列表,返回userInfo和total",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model_repo.UserInfoResp"
+                                            }
                                         }
                                     }
                                 }
@@ -82,48 +211,285 @@
         }
     },
     "definitions": {
-        "code.ResCode": {
-            "type": "integer",
-            "enum": [
-                1000,
-                1001,
-                1002,
-                1003,
-                1004,
-                1005,
-                1006,
-                1007,
-                1008,
-                1009,
-                1010,
-                1011,
-                1012,
-                1013,
-                1014,
-                1015,
-                1016
-            ],
-            "x-enum-varnames": [
-                "SUCCESS",
-                "ERROR",
-                "ServerErr",
-                "ValidateError",
-                "Deadline",
-                "CreateError",
-                "FindError",
-                "WithoutServer",
-                "AuthError",
-                "DeleteError",
-                "EmptyFile",
-                "RateLimit",
-                "Unauthorized",
-                "WithoutLogin",
-                "DisableAuth",
-                "PasswordError",
-                "UpdateError"
-            ]
+        "github_com_Cheng1622_news_go_server_internal_model.Menu": {
+            "type": "object",
+            "properties": {
+                "activeMenu": {
+                    "type": "string"
+                },
+                "alwaysShow": {
+                    "type": "integer"
+                },
+                "breadcrumb": {
+                    "type": "integer"
+                },
+                "children": {
+                    "description": "子菜单集合",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model.Menu"
+                    }
+                },
+                "component": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "creator": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "hidden": {
+                    "type": "integer"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "menuid": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "noCache": {
+                    "type": "integer"
+                },
+                "parentId": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "redirect": {
+                    "type": "string"
+                },
+                "roles": {
+                    "description": "角色菜单多对多关系",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model.Role"
+                    }
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
         },
-        "requ.RegisterAndLoginRequest": {
+        "github_com_Cheng1622_news_go_server_internal_model.Role": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "creator": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "keyword": {
+                    "type": "string"
+                },
+                "menus": {
+                    "description": "角色菜单多对多关系",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model.Menu"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model.User"
+                    }
+                }
+            }
+        },
+        "github_com_Cheng1622_news_go_server_internal_model.User": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "creator": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "$ref": "#/definitions/gorm.DeletedAt"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "introduction": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model.Role"
+                    }
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userid": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Cheng1622_news_go_server_internal_model_repo.UserInfoResp": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "introduction": {
+                    "type": "string"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Cheng1622_news_go_server_internal_model.Role"
+                    }
+                },
+                "userid": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Cheng1622_news_go_server_internal_model_requ.ChangePwdRequest": {
+            "type": "object",
+            "required": [
+                "newPassword",
+                "oldPassword"
+            ],
+            "properties": {
+                "newPassword": {
+                    "type": "string"
+                },
+                "oldPassword": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Cheng1622_news_go_server_internal_model_requ.CreateUserRequest": {
+            "type": "object",
+            "required": [
+                "mobile",
+                "password",
+                "roleIds",
+                "username"
+            ],
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "introduction": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "minLength": 0
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "nickname": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 0
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 6
+                },
+                "roleIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "status": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ]
+                },
+                "userid": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 2
+                }
+            }
+        },
+        "github_com_Cheng1622_news_go_server_internal_model_requ.RegisterAndLoginRequest": {
             "type": "object",
             "required": [
                 "captchaId",
@@ -146,14 +512,83 @@
                 }
             }
         },
-        "response.Response": {
+        "github_com_Cheng1622_news_go_server_pkg_captcha.CaptchaResponse": {
+            "type": "object",
+            "properties": {
+                "captcha": {
+                    "type": "string"
+                },
+                "captchaId": {
+                    "type": "string"
+                },
+                "picPath": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Cheng1622_news_go_server_pkg_code.ResCode": {
+            "type": "integer",
+            "enum": [
+                1000,
+                1001,
+                1002,
+                1003,
+                1004,
+                1005,
+                1006,
+                1007,
+                1008,
+                1009,
+                1010,
+                1011,
+                1012,
+                1013,
+                1014,
+                1015,
+                1016,
+                1017
+            ],
+            "x-enum-varnames": [
+                "SUCCESS",
+                "ERROR",
+                "ServerErr",
+                "ValidateError",
+                "Deadline",
+                "CreateError",
+                "FindError",
+                "WithoutServer",
+                "AuthError",
+                "DeleteError",
+                "EmptyFile",
+                "RateLimit",
+                "Unauthorized",
+                "LoginError",
+                "WithoutLogin",
+                "DisableAuth",
+                "PasswordError",
+                "UpdateError"
+            ]
+        },
+        "github_com_Cheng1622_news_go_server_pkg_response.Response": {
             "type": "object",
             "properties": {
                 "code": {
-                    "$ref": "#/definitions/code.ResCode"
+                    "$ref": "#/definitions/github_com_Cheng1622_news_go_server_pkg_code.ResCode"
                 },
                 "data": {},
                 "msg": {}
+            }
+        },
+        "gorm.DeletedAt": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "string"
+                },
+                "valid": {
+                    "description": "Valid is true if Time is not NULL",
+                    "type": "boolean"
+                }
             }
         }
     }
