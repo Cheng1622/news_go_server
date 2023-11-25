@@ -65,9 +65,11 @@ type CasbinConfig struct {
 }
 
 type JwtConfig struct {
-	Issuer  string `mapstructure:"issuer" json:"issuer"`
-	Subject string `mapstructure:"subject" json:"subject"`
-	Timeout int    `mapstructure:"timeout" json:"timeout"`
+	Issuer     string `mapstructure:"issuer" json:"issuer"`
+	Subject    string `mapstructure:"subject" json:"subject"`
+	Timeout    int64  `mapstructure:"timeout" json:"timeout"`
+	Blacktime  int64  `mapstructure:"blacktime" json:"blacktime"`
+	MaxRefresh int64  `mapstructure:"max-refresh" json:"maxRefresh"`
 }
 
 type RateLimitConfig struct {

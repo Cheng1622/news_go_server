@@ -17,6 +17,8 @@ const (
 	RateLimit
 	Unauthorized
 	LoginError
+	LoginNoError
+	LogoutError
 	WithoutLogin
 	DisableAuth
 	PasswordError
@@ -38,6 +40,8 @@ var codeMsgMap = map[ResCode]string{
 	RateLimit:     "访问限流",
 	Unauthorized:  "JWT认证失败",
 	LoginError:    "登录失败",
+	LoginNoError:  "登录失效",
+	LogoutError:   "登出失败",
 	WithoutLogin:  "用户未登录",
 	DisableAuth:   "当前用户已被禁用",
 	PasswordError: "密码错误",

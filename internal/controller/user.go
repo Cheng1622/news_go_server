@@ -20,6 +20,8 @@ import (
 
 type UserApi interface {
 	Login(c *gin.Context)                // 登录
+	Logout(c *gin.Context)               //注销
+	RefreshToken(c *gin.Context)         //刷新token
 	GetUserInfo(c *gin.Context)          // 获取当前登录用户信息
 	GetUsers(c *gin.Context)             // 获取用户列表
 	ChangePwd(c *gin.Context)            // 更新用户登录密码
@@ -69,6 +71,21 @@ func (us UserApiService) Login(c *gin.Context) {
 		gin.H{
 			"token": token,
 		})
+}
+
+// Logout 用户注销
+func (us UserApiService) Logout(c *gin.Context) {
+	err := jwt.JoinBlackList(c)
+	if err != nil {
+		response.Error(c, code.LogoutError, err.Error())
+		return
+	}
+	response.Success(c, code.SUCCESS, nil)
+}
+
+// RefreshToken token续约
+func (us UserApiService) RefreshToken(c *gin.Context) {
+
 }
 
 // GetUserInfo 获取当前登录用户信息

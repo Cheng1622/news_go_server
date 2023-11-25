@@ -63,6 +63,14 @@ func TestData(t *testing.T) {
 			Sort:    3,
 			Creator: "admin",
 		},
+		{
+			Name:    "访客",
+			Keyword: "guest",
+			Desc:    "访客",
+			Status:  1,
+			Sort:    5,
+			Creator: "系统",
+		},
 	}
 
 	for _, role := range roles {
@@ -121,9 +129,9 @@ func TestData(t *testing.T) {
 			Creator:  "admin",
 		},
 		{
-			Method:   "POST",
-			Path:     "api/v1/base/logout",
-			Category: "base",
+			Method:   "GET",
+			Path:     "api/v1/user/logout",
+			Category: "user",
 			Desc:     "用户登出",
 			Creator:  "admin",
 		},
@@ -198,6 +206,7 @@ func TestData(t *testing.T) {
 			basePaths := []string{
 				"api/v1/base/login",
 				"api/v1/base/captcha",
+				"api/v1/user/logout",
 				"api/v1/user/info",
 				"api/v1/user/changePwd",
 			}

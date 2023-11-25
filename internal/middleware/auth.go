@@ -21,11 +21,17 @@ func JwtMiddleware() func(c *gin.Context) {
 			c.Abort() //阻止执行
 			return
 		}
+		// 黑名单
+		if jwt.IsInBlacklist(tokenStr) {
+			response.Error(c, code.LoginNoError, "您的帐户异地登陆或令牌失效")
+			c.Abort()
+			return
+		}
 		//验证token
 		tokenStruck, err := jwt.ParseToken(tokenStr)
 		if err != nil {
 			clog.Log.Errorln("token错误:", err)
-			response.Error(c, code.Unauthorized, err.Error())
+			response.Error(c, code.Unauthorized, "token错误: "+err.Error())
 			c.Abort() //阻止执行
 			return
 		}
@@ -36,7 +42,10 @@ func JwtMiddleware() func(c *gin.Context) {
 			c.Abort() //阻止执行
 			return
 		}
+
 		c.Set("userid", tokenStruck.Userid)
+		c.Set("expiresAt", tokenStruck.ExpiresAt)
+		c.Set("tokenStr", tokenStr)
 
 		c.Next()
 	}
