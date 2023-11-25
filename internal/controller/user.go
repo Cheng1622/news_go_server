@@ -74,6 +74,12 @@ func (us UserApiService) Login(c *gin.Context) {
 }
 
 // Logout 用户注销
+//
+//	@Tags		User
+//	@Summary	用户注销
+//	@Produce	application/json
+//	@Success	1000	{object}	response.Response{}	"用户注销,返回成功"
+//	@Router		/api/v1/user/logout [get]
 func (us UserApiService) Logout(c *gin.Context) {
 	err := jwt.JoinBlackList(c)
 	if err != nil {

@@ -43,4 +43,5 @@ func GroupRouter(r *gin.Engine) {
 	// 注册路由
 	InitBaseRouter(apiGroup) // 注册基础路由, 不需要jwt认证中间件,不需要casbin中间件
 	InitUserRouter(apiGroup) // 注册用户路由, jwt认证中间件,casbin鉴权中间件
+	InitRoleRouter(apiGroup) // 注册角色路由, jwt认证中间件,casbin鉴权中间件
 }
