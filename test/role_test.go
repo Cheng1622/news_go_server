@@ -23,8 +23,9 @@ func init() {
 	snowflake.InitSnowflake()
 	casbin.InitCasbinEnforcer()
 }
+
+// 获取角色列表
 func TestGetRole(t *testing.T) {
-	// 获取角色列表
 	req := &requ.RoleListRequest{
 		Name: "超级管理员",
 	}
@@ -34,8 +35,9 @@ func TestGetRole(t *testing.T) {
 	}
 	t.Fatal(roles, total)
 }
+
+// 根据角色ID获取角色
 func TestGetRolesByIds(t *testing.T) {
-	// 获取角色列表
 	req := []uint{1, 2, 3, 4, 5, 6}
 	roles, err := service.NewRoleService().GetRolesByIds(req)
 	if err != nil {
@@ -46,6 +48,7 @@ func TestGetRolesByIds(t *testing.T) {
 	}
 }
 
+// 创建角色
 func TestCreateRole(t *testing.T) {
 	req := &model.Role{
 		Name:    "VIP用户",
@@ -61,6 +64,8 @@ func TestCreateRole(t *testing.T) {
 	}
 	fmt.Println("创建角色成功")
 }
+
+// 更新角色
 func TestUpdateRoleById(t *testing.T) {
 	req := &model.Role{
 		Name:    "VIP用户",
@@ -76,6 +81,8 @@ func TestUpdateRoleById(t *testing.T) {
 	}
 	fmt.Println("根据id修改角色成功")
 }
+
+// 获取角色的权限菜单
 func TestGetRoleMenusById(t *testing.T) {
 	menu, err := service.NewRoleService().GetRoleMenusById(1)
 	if err != nil {
@@ -86,7 +93,7 @@ func TestGetRoleMenusById(t *testing.T) {
 	}
 }
 
-// 更新角色的权限菜单
+// 更新角色的权限菜单新角色的权限菜单
 func TestUpdateRoleMenus(t *testing.T) {
 	req := &model.Role{
 		Name: "VIP用户",
@@ -97,8 +104,9 @@ func TestUpdateRoleMenus(t *testing.T) {
 	}
 	fmt.Println("成功")
 }
-func TestGetRoleApisByRoleKeyword(t *testing.T) {
 
+// 根据角色关键字获取角色的权限接口
+func TestGetRoleApisByRoleKeyword(t *testing.T) {
 	api, err := service.NewRoleService().GetRoleApisByRoleKeyword("vip_user")
 	if err != nil {
 		t.Fatal("根据角色关键字获取角色的权限接口失败: ", err)
@@ -107,9 +115,13 @@ func TestGetRoleApisByRoleKeyword(t *testing.T) {
 		fmt.Println(*v)
 	}
 }
+
+// 更新角色的权限接口（先全部删除再新增）
 func TestUpdateRoleApis(t *testing.T) {
 
 }
+
+// 删除角色
 func TestBatchDeleteRoleByIds(t *testing.T) {
 	req := []uint{6}
 	err := service.NewRoleService().BatchDeleteRoleByIds(req)
