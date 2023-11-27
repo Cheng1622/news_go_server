@@ -40,7 +40,7 @@ func (ms MenuApiService) GetMenus(c *gin.Context) {
 
 	}
 	// 成功返回
-	response.Success(c, code.SUCCESS, map[string]interface{}{
+	response.Success(c, code.SUCCESS, gin.H{
 		"menus": menus,
 	})
 	return
@@ -55,7 +55,7 @@ func (ms MenuApiService) GetMenuTree(c *gin.Context) {
 		return
 	}
 	// 成功返回
-	response.Success(c, code.SUCCESS, map[string]interface{}{
+	response.Success(c, code.SUCCESS, gin.H{
 		"menuTree": menuTree,
 	})
 	return
@@ -206,7 +206,7 @@ func (ms MenuApiService) GetUserMenusByUserId(c *gin.Context) {
 		return
 	}
 	// 成功返回
-	response.Success(c, code.SUCCESS, map[string]interface{}{
+	response.Success(c, code.SUCCESS, gin.H{
 		"menus": menus,
 	})
 	return
@@ -229,7 +229,7 @@ func (ms MenuApiService) GetUserMenuTreeByUserId(c *gin.Context) {
 		return
 	}
 	// 成功返回
-	response.Success(c, code.SUCCESS, map[string]interface{}{
+	response.Success(c, code.SUCCESS, gin.H{
 		"menuTree": menuTree,
 	})
 	return
