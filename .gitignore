@@ -1,2 +1,3 @@
-video/
-web_app.log
+1
+logs
+*.pem
