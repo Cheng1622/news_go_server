@@ -85,3 +85,10 @@ snowflake:
   workerID: 1
   # 在不同的数据中心或区域生成的 ID 是唯一的，最低位
   datacenterID: 1
+
+upload:
+  image-prefixUrl: localhost:8888
+  image-savePath: upload/images/
+  #图片最大，MB
+  image-maxSize: 5
+  image-allowExts: .jpg,.jpeg,.png

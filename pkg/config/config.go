@@ -21,6 +21,7 @@ type config struct {
 	Jwt       *JwtConfig       `mapstructure:"jwt" json:"jwt"`
 	RateLimit *RateLimitConfig `mapstructure:"ratelimit" json:"rateLimit"`
 	SnowFlake *SnowFlakeConfig `mapstructure:"snowFlake" json:"snowFlake"`
+	Upload    *UploadConfig    `mapstructure:"upload" json:"upload"`
 }
 
 type SystemConfig struct {
@@ -80,6 +81,13 @@ type RateLimitConfig struct {
 type SnowFlakeConfig struct {
 	WorkerID     int64 `mapstructure:"workerId" json:"workerId"`
 	DatacenterID int64 `mapstructure:"datacenterId" json:"datacenterId"`
+}
+
+type UploadConfig struct {
+	ImagePrefixUrl string   `mapstructure:"image-prefixUrl" json:"imagePrefixUrl"`
+	ImageSavePath  string   `mapstructure:"image-savePath" json:"imageSavePath"`
+	ImageMaxSize   int      `mapstructure:"image-maxSize" json:"imageMaxSize"`
+	ImageAllowExts []string `mapstructure:"image-allowExts" json:"imageAllowExts"`
 }
 
 // InitConfig 加载配置文件

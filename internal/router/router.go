@@ -41,7 +41,12 @@ func GroupRouter(r *gin.Engine) {
 	// 路由分组
 	apiGroup := r.Group("/api/v1")
 	// 注册路由
-	InitBaseRouter(apiGroup) // 注册基础路由, 不需要jwt认证中间件,不需要casbin中间件
-	InitUserRouter(apiGroup) // 注册用户路由, jwt认证中间件,casbin鉴权中间件
-	InitRoleRouter(apiGroup) // 注册角色路由, jwt认证中间件,casbin鉴权中间件
+	InitBaseRouter(apiGroup)        // 注册基础路由, 不需要jwt认证中间件,不需要casbin中间件
+	InitUserRouter(apiGroup)        // 注册用户路由, jwt认证中间件,casbin鉴权中间件
+	InitRoleRouter(apiGroup)        // 注册角色路由, jwt认证中间件,casbin鉴权中间件
+	InitMenuRouter(apiGroup)        // 注册菜单路由, jwt认证中间件,casbin鉴权中间件
+	InitApiRouter(apiGroup)         // 注册接口路由, jwt认证中间件,casbin鉴权中间件
+	InitDictRouter(apiGroup)        // 注册字典路由, jwt认证中间件,casbin鉴权中间件
+	InitDictDetailsRouter(apiGroup) // 注册字典详情路由, jwt认证中间件,casbin鉴权中间件
+	InitUploadRouter(apiGroup)      // 文件上传, jwt认证中间件,casbin鉴权中间件
 }
